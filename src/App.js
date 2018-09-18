@@ -25,9 +25,19 @@ export default class App extends Component {
   }
 
   toggleConfirmed(index) {
-    const invitees = this.state.invitees
+    const invitees = [...this.state.invitees]
 
     invitees[index].confirmed = !invitees[index].confirmed
+
+    this.setState({
+      invitees: invitees
+    })
+  }
+
+  removeInvitee(index) {
+    const invitees = [...this.state.invitees]
+
+    invitees.splice(index, 1)
 
     this.setState({
       invitees: invitees
@@ -55,6 +65,7 @@ export default class App extends Component {
                   name={invitee.name}
                   confirmed={invitee.confirmed}
                   toggleConfirmed={() => this.toggleConfirmed(index)}
+                  removeInvitee={() => this.removeInvitee(index)}
                 />
               )
             }

@@ -13,7 +13,7 @@ export default class Invitee extends Component {
           {this.props.confirmed ? 'Confirmed' : 'Unconfirmed'}
         </label>
         <button>edit</button>
-        <button>remove</button>
+        <button onClick={this.props.removeInvitee}>remove</button>
       </li>
     );
   }
