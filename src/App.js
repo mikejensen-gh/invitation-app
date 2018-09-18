@@ -15,11 +15,22 @@ export default class App extends Component {
     }
 
     this.toggleHideUnresponded = this.toggleHideUnresponded.bind(this)
+    this.toggleConfirmed = this.toggleConfirmed.bind(this)
   }
 
   toggleHideUnresponded() {
     this.setState({
       hideUnresponded: !this.state.hideUnresponded
+    })
+  }
+
+  toggleConfirmed(index) {
+    const invitees = this.state.invitees
+
+    invitees[index].confirmed = !invitees[index].confirmed
+
+    this.setState({
+      invitees: invitees
     })
   }
 
@@ -35,17 +46,15 @@ export default class App extends Component {
           <Counter
             invitees={this.state.invitees}
           />
-          {/* <label>
-            <input value={this.state.hideUnresponded} type="checkbox" toggleHideUnresponded={this.toggleHideUnresponded} /> Xresponse
-          </label> */}
           <ul>
             {this.state.invitees
               .filter(invitee => !this.state.hideUnresponded || invitee.confirmed)
-              .map(invitee =>
+              .map((invitee, index) =>
                 <Invitee
                   key={invitee.key}
                   name={invitee.name}
                   confirmed={invitee.confirmed}
+                  toggleConfirmed={() => this.toggleConfirmed(index)}
                 />
               )
             }

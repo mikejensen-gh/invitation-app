@@ -7,9 +7,8 @@ export default class Subheader extends Component {
         <h2>Invitees</h2>
         <label>
           <input
-            value={this.props.hideUnresponded}
-            checked={this.props.hideUnresponded}
             type="checkbox"
+            checked={this.props.hideUnresponded}
             onChange={this.props.toggleHideUnresponded}/> Hide those who haven't responded
         </label>
       </div>
