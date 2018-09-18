@@ -44,6 +44,16 @@ export default class App extends Component {
     })
   }
 
+  handleNameChange(name, index) {
+    const invitees = [...this.state.invitees]
+
+    invitees[index].name = name
+
+    this.setState({
+      invitees: invitees
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -66,6 +76,7 @@ export default class App extends Component {
                   confirmed={invitee.confirmed}
                   toggleConfirmed={() => this.toggleConfirmed(index)}
                   removeInvitee={() => this.removeInvitee(index)}
+                  handleNameChange={(name) => this.handleNameChange(name, index)}
                 />
               )
             }

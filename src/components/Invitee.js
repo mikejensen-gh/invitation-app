@@ -1,9 +1,29 @@
 import React, { Component } from 'react';
+import InviteeName from './InviteeName.js'
 
 export default class Invitee extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      nameEditable: false
+    }
+  }
+
+  toggleEditableName() {
+    this.setState({
+      nameEditable: !this.state.nameEditable
+    })
+  }
+
   render() {
     return (
-      <li className="responded"><span>{this.props.name}</span>
+      <li className={this.props.confirmed ? 'responded' : ''}>
+        <InviteeName
+          name={this.props.name}
+          nameEditable={this.state.nameEditable}
+          handleChange={this.props.handleNameChange}
+        />
         <label>
           <input
             type="checkbox"
@@ -12,8 +32,10 @@ export default class Invitee extends Component {
           />
           {this.props.confirmed ? 'Confirmed' : 'Unconfirmed'}
         </label>
-        <button>edit</button>
-        <button onClick={this.props.removeInvitee}>remove</button>
+        <button onClick={() => this.toggleEditableName()}>
+          {this.state.nameEditable ? 'Save' : 'Edit'}
+        </button>
+        <button onClick={this.props.removeInvitee}>Remove</button>
       </li>
     );
   }
