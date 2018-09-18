@@ -18,7 +18,7 @@ const initialInvitees = [
   {
     key: 2,
     name: 'Joel',
-    confirmed: true
+    confirmed: false
   }
 ];
 

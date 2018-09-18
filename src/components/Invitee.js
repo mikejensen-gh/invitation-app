@@ -5,7 +5,7 @@ export default class Invitee extends Component {
     return (
       <li className="responded"><span>{this.props.name}</span>
         <label>
-          <input type="checkbox" checked />{this.props.confirmed ? 'Confirmed' : 'Unconfirmed'}
+          <input type="checkbox" defaultChecked />{this.props.confirmed ? 'Confirmed' : 'Unconfirmed'}
         </label>
         <button>edit</button>
         <button>remove</button>
