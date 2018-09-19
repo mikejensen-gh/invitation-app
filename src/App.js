@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import './App.css'
 import shortid from 'shortid'
 
-import Header from './components/Header.js'
+import NewInviteeForm from './components/NewInviteeForm.js'
 import Invitee from './components/Invitee.js'
-import AttendanceCount from './components/AttendanceCount.js'
-import Subheader from './components/Subheader.js'
+import ResponseCounter from './components/ResponseCounter.js'
+import HideUnrespondedCheckbox from './components/HideUnrespondedCheckbox.js'
 import PendingInvitee from './components/PendingInvitee.js'
 
 export default class App extends Component {
@@ -17,42 +17,6 @@ export default class App extends Component {
       hideUnresponded: false,
       pendingInviteeName: ''
     }
-  }
-
-  toggleHideUnresponded() {
-    this.setState({
-      hideUnresponded: !this.state.hideUnresponded
-    })
-  }
-
-  toggleInviteeConfirmedStatus(index) {
-    const invitees = [...this.state.invitees]
-
-    invitees[index].confirmed = !invitees[index].confirmed
-
-    this.setState({
-      invitees: invitees
-    })
-  }
-
-  removeInvitee(index) {
-    const invitees = [...this.state.invitees]
-
-    invitees.splice(index, 1)
-
-    this.setState({
-      invitees: invitees
-    })
-  }
-
-  updateInviteeName(index, name) {
-    const invitees = [...this.state.invitees]
-
-    invitees[index].name = name
-
-    this.setState({
-      invitees: invitees
-    })
   }
 
   updatePendingInviteeName(name) {
@@ -76,20 +40,67 @@ export default class App extends Component {
     })
   }
 
+  updateInviteeName(index, name) {
+    const invitees = [...this.state.invitees]
+
+    invitees[index].name = name
+
+    this.setState({
+      invitees: invitees
+    })
+  }
+
+  toggleInviteeConfirmedStatus(index) {
+    const invitees = [...this.state.invitees]
+
+    invitees[index].confirmed = !invitees[index].confirmed
+
+    this.setState({
+      invitees: invitees
+    })
+  }
+
+  toggleHideUnresponded() {
+    this.setState({
+      hideUnresponded: !this.state.hideUnresponded
+    })
+  }
+
+  removeInvitee(index) {
+    const invitees = [...this.state.invitees]
+
+    invitees.splice(index, 1)
+
+    this.setState({
+      invitees: invitees
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        <Header
-          inputValue={this.state.pendingInviteeName}
-          handleChange={(name) => this.updatePendingInviteeName(name)}
-          handleSubmit={() => this.addNewInvitee()}
-        />
-        <div className="main">
-          <Subheader
-            hideUnresponded={this.state.hideUnresponded}
-            toggleHideUnresponded={() => this.toggleHideUnresponded()}
+
+        <header>
+          <h1>RSVP</h1>
+          <p>A Treehouse App</p>
+          <NewInviteeForm
+            inputValue={this.state.pendingInviteeName}
+            handleChange={(name) => this.updatePendingInviteeName(name)}
+            handleSubmit={() => this.addNewInvitee()}
           />
-          <AttendanceCount
+        </header>
+
+        <div className="main">
+
+          <div>
+            <h2>Invitees</h2>
+            <HideUnrespondedCheckbox
+              hideUnresponded={this.state.hideUnresponded}
+              toggleHideUnresponded={() => this.toggleHideUnresponded()}
+            />
+          </div>
+
+          <ResponseCounter
             invitees={this.state.invitees}
           />
 
@@ -97,6 +108,7 @@ export default class App extends Component {
             <PendingInvitee
               name={this.state.pendingInviteeName}
             />
+
             {this.state.invitees
               .filter(invitee => !this.state.hideUnresponded || invitee.confirmed)
               .map((invitee, index) =>
@@ -110,9 +122,9 @@ export default class App extends Component {
                 />
               )
             }
-        </ul>
+          </ul>
+        </div>
       </div>
-      </div>
-    );
+    )
   }
 }

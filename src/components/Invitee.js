@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import InviteeName from './InviteeName.js'
 
 export default class Invitee extends Component {
@@ -37,6 +37,6 @@ export default class Invitee extends Component {
         </button>
         <button onClick={this.props.removeInvitee}>Remove</button>
       </li>
-    );
+    )
   }
 }
