@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import Header from './components/Header.js'
 import './App.css'
+import shortid from 'shortid'
+
+import Header from './components/Header.js'
 import Invitee from './components/Invitee.js'
 import AttendanceCount from './components/AttendanceCount.js'
 import Subheader from './components/Subheader.js'
@@ -11,13 +13,10 @@ export default class App extends Component {
     super(props)
 
     this.state = {
-      invitees: this.props.initialInvitees,
+      invitees: [],
       hideUnresponded: false,
-      pendingInviteeName: 'Saria'
+      pendingInviteeName: ''
     }
-
-    this.toggleHideUnresponded = this.toggleHideUnresponded.bind(this)
-    this.toggleConfirmed = this.toggleConfirmed.bind(this)
   }
 
   toggleHideUnresponded() {
@@ -26,7 +25,7 @@ export default class App extends Component {
     })
   }
 
-  toggleConfirmed(index) {
+  toggleInviteeConfirmedStatus(index) {
     const invitees = [...this.state.invitees]
 
     invitees[index].confirmed = !invitees[index].confirmed
@@ -46,7 +45,7 @@ export default class App extends Component {
     })
   }
 
-  handleNameChange(name, index) {
+  updateInviteeName(index, name) {
     const invitees = [...this.state.invitees]
 
     invitees[index].name = name
@@ -56,17 +55,17 @@ export default class App extends Component {
     })
   }
 
-  handlePendingInviteeNameChange(name) {
+  updatePendingInviteeName(name) {
     this.setState({
       pendingInviteeName: name
     })
   }
 
-  handleNewInviteeSubmit() {
+  addNewInvitee() {
     const invitees = [...this.state.invitees]
 
-    invitees.push({
-      key: this.state.invitees.length,
+    invitees.unshift({
+      key: shortid.generate(),
       name: this.state.pendingInviteeName,
       confirmed: false
     })
@@ -82,17 +81,18 @@ export default class App extends Component {
       <div className="App">
         <Header
           inputValue={this.state.pendingInviteeName}
-          handleChange={(name) => this.handlePendingInviteeNameChange(name)}
-          handleSubmit={this.handleNewInviteeSubmit.bind(this)}
+          handleChange={(name) => this.updatePendingInviteeName(name)}
+          handleSubmit={() => this.addNewInvitee()}
         />
         <div className="main">
           <Subheader
             hideUnresponded={this.state.hideUnresponded}
-            toggleHideUnresponded={this.toggleHideUnresponded}
+            toggleHideUnresponded={() => this.toggleHideUnresponded()}
           />
           <AttendanceCount
             invitees={this.state.invitees}
           />
+
           <ul>
             <PendingInvitee
               name={this.state.pendingInviteeName}
@@ -104,9 +104,9 @@ export default class App extends Component {
                   key={invitee.key}
                   name={invitee.name}
                   confirmed={invitee.confirmed}
-                  toggleConfirmed={() => this.toggleConfirmed(index)}
+                  handleConfirmedStatusChange={() => this.toggleInviteeConfirmedStatus(index)}
                   removeInvitee={() => this.removeInvitee(index)}
-                  handleNameChange={(name) => this.handleNameChange(name, index)}
+                  handleNameChange={(name) => this.updateInviteeName(index, name)}
                 />
               )
             }

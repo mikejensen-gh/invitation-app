@@ -28,7 +28,7 @@ export default class Invitee extends Component {
           <input
             type="checkbox"
             checked={this.props.confirmed}
-            onChange={this.props.toggleConfirmed}
+            onChange={this.props.handleConfirmedStatusChange}
           />
           {this.props.confirmed ? 'Confirmed' : 'Unconfirmed'}
         </label>
