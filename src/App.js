@@ -3,10 +3,10 @@ import './App.css'
 import shortid from 'shortid'
 
 import NewInviteeForm from './components/NewInviteeForm.js'
-import Invitee from './components/Invitee.js'
+import AddedInvitee from './components/AddedInvitee'
 import ResponseCounter from './components/ResponseCounter.js'
 import HideUnrespondedCheckbox from './components/HideUnrespondedCheckbox.js'
-import PendingInvitee from './components/PendingInvitee.js'
+import NewInvitee from './components/NewInvitee.js'
 
 export default class App extends Component {
   constructor(props) {
@@ -14,29 +14,29 @@ export default class App extends Component {
 
     this.state = {
       invitees: [],
-      hideUnresponded: false,
-      pendingInviteeName: ''
+      hideUnrespondedInvitees: false,
+      newInviteeName: ''
     }
   }
 
-  updatePendingInviteeName(name) {
+  updateNewInviteeName(name) {
     this.setState({
-      pendingInviteeName: name
+      newInviteeName: name
     })
   }
 
-  addNewInvitee() {
+  addInvitee() {
     const invitees = [...this.state.invitees]
 
     invitees.unshift({
       key: shortid.generate(),
-      name: this.state.pendingInviteeName,
+      name: this.state.newInviteeName,
       confirmed: false
     })
 
     this.setState({
       invitees: invitees,
-      pendingInviteeName: ''
+      newInviteeName: ''
     })
   }
 
@@ -60,9 +60,9 @@ export default class App extends Component {
     })
   }
 
-  toggleHideUnresponded() {
+  toggleHideUnrespondedInvitees() {
     this.setState({
-      hideUnresponded: !this.state.hideUnresponded
+      hideUnrespondedInvitees: !this.state.hideUnrespondedInvitees
     })
   }
 
@@ -77,26 +77,26 @@ export default class App extends Component {
   }
 
   render() {
+    const addedInviteesToDisplay = this.state.invitees.filter(invitee => !this.state.hideUnrespondedInvitees || invitee.confirmed)
+
     return (
       <div className="App">
-
         <header>
           <h1>RSVP</h1>
           <p>A Treehouse App</p>
           <NewInviteeForm
-            inputValue={this.state.pendingInviteeName}
-            handleChange={(name) => this.updatePendingInviteeName(name)}
-            handleSubmit={() => this.addNewInvitee()}
+            name={this.state.newInviteeName}
+            handleChange={(name) => this.updateNewInviteeName(name)}
+            handleSubmit={() => this.addInvitee()}
           />
         </header>
 
         <div className="main">
-
           <div>
             <h2>Invitees</h2>
             <HideUnrespondedCheckbox
-              hideUnresponded={this.state.hideUnresponded}
-              toggleHideUnresponded={() => this.toggleHideUnresponded()}
+              value={this.state.hideUnrespondedInvitees}
+              handleChange={() => this.toggleHideUnrespondedInvitees()}
             />
           </div>
 
@@ -105,23 +105,20 @@ export default class App extends Component {
           />
 
           <ul>
-            <PendingInvitee
-              name={this.state.pendingInviteeName}
+            <NewInvitee
+              name={this.state.newInviteeName}
             />
 
-            {this.state.invitees
-              .filter(invitee => !this.state.hideUnresponded || invitee.confirmed)
-              .map((invitee, index) =>
-                <Invitee
-                  key={invitee.key}
-                  name={invitee.name}
-                  confirmed={invitee.confirmed}
-                  handleConfirmedStatusChange={() => this.toggleInviteeConfirmedStatus(index)}
-                  removeInvitee={() => this.removeInvitee(index)}
-                  handleNameChange={(name) => this.updateInviteeName(index, name)}
-                />
-              )
-            }
+        {addedInviteesToDisplay.map((invitee, index) =>
+            <AddedInvitee
+              key={invitee.key}
+              name={invitee.name}
+              confirmed={invitee.confirmed}
+              handleConfirmedStatusChange={() => this.toggleInviteeConfirmedStatus(index)}
+              removeInvitee={() => this.removeInvitee(index)}
+              handleNameChange={(name) => this.updateInviteeName(index, name)}
+            />
+        )}
           </ul>
         </div>
       </div>
