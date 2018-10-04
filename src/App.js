@@ -9,14 +9,10 @@ import HideUnrespondedCheckbox from './components/HideUnrespondedCheckbox.js'
 import NewInvitee from './components/NewInvitee.js'
 
 export default class App extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      invitees: [],
-      hideUnrespondedInvitees: false,
-      newInviteeName: ''
-    }
+  state = {
+    invitees: [],
+    hideUnrespondedInvitees: false,
+    newInviteeName: ''
   }
 
   updateNewInviteeName(name) {
@@ -31,7 +27,7 @@ export default class App extends Component {
     invitees.unshift({
       key: shortid.generate(),
       name: this.state.newInviteeName,
-      confirmed: false
+      isConfirmed: false
     })
 
     this.setState({
@@ -53,7 +49,7 @@ export default class App extends Component {
   toggleInviteeConfirmedStatus(index) {
     const invitees = [...this.state.invitees]
 
-    invitees[index].confirmed = !invitees[index].confirmed
+    invitees[index].isConfirmed = !invitees[index].isConfirmed
 
     this.setState({
       invitees: invitees
@@ -77,7 +73,7 @@ export default class App extends Component {
   }
 
   render() {
-    const addedInviteesToDisplay = this.state.invitees.filter(invitee => !this.state.hideUnrespondedInvitees || invitee.confirmed)
+    const inviteesToDisplay = this.state.invitees.filter(invitee => !this.state.hideUnrespondedInvitees || invitee.isConfirmed)
 
     return (
       <div className="App">
@@ -109,11 +105,11 @@ export default class App extends Component {
               name={this.state.newInviteeName}
             />
 
-        {addedInviteesToDisplay.map((invitee, index) =>
+        {inviteesToDisplay.map((invitee, index) =>
             <AddedInvitee
               key={invitee.key}
               name={invitee.name}
-              confirmed={invitee.confirmed}
+              isConfirmed={invitee.isConfirmed}
               handleConfirmedStatusChange={() => this.toggleInviteeConfirmedStatus(index)}
               removeInvitee={() => this.removeInvitee(index)}
               handleNameChange={(name) => this.updateInviteeName(index, name)}

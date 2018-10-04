@@ -4,7 +4,7 @@ export default class ResponseCounter extends Component {
   render() {
     const totalCount = this.props.invitees.length
     const confirmedCount = this.props.invitees.reduce((accumulator, invitee) => {
-      if (invitee.confirmed) {
+      if (invitee.isConfirmed) {
         return accumulator + 1
       }
 
