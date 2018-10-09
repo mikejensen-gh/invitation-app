@@ -78,8 +78,8 @@ export default class App extends Component {
     return (
       <div className="App">
         <header>
-          <h1>RSVP</h1>
-          <p>A Treehouse App</p>
+          <h1>Inviting!</h1>
+          <p>Invite friends and family to your next big bash</p>
           <NewInviteeForm
             name={this.state.newInviteeName}
             handleChange={(name) => this.updateNewInviteeName(name)}

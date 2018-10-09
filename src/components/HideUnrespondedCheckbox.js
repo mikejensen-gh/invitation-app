@@ -7,7 +7,7 @@ export default class HideUnrespondedCheckbox extends Component {
         <input
           type="checkbox"
           checked={this.props.value}
-          onChange={this.props.handleChange}/> Hide those who haven't responded
+          onChange={this.props.handleChange}/> Hide those who haven't (yet) responded
       </label>
     )
   }

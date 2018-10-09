@@ -15,7 +15,7 @@ export default class NewInviteeForm extends Component {
         <input
           type="text"
           value={this.props.name}
-          placeholder="Invite Someone"
+          placeholder="Invite someone..."
           onChange={(e) => this.props.handleChange(e.target.value)}
         />
         <button type="submit" name="submit" value="submit">Submit</button>
