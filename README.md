@@ -9,13 +9,13 @@ Styling and concept courtesy of teamtreehouse.com's "react by example" course.
 yarn install
 
 # Compiles and hot-reloads for development
-yarn run serve
+yarn start
 
 # Compiles and minifies for production
-yarn run build
+yarn build
 
-# Lints and fixes files
-yarn run lint
+# Runs tests
+yarn test
 ```
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
